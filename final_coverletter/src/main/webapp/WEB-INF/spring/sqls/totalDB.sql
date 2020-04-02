@@ -16,8 +16,8 @@ CREATE TABLE JOINUSER
     MILILTARY    VARCHAR2(100), 
     PHONE        CHAR(13), 
     ADDRESS      VARCHAR2(200), 
-    KAKAO        VARCHAR2(200), 				-- 카카오API에 사용
-    SINGUP       CHAR(1)          NOT NULL, 	-- 가입유무
+    KAKAO        VARCHAR2(200),             -- 카카오API에 사용
+    SINGUP       CHAR(1)          NOT NULL,    -- 가입유무
     CONSTRAINT USER_PK PRIMARY KEY (JOINEMAIL)
 );
 
@@ -29,54 +29,51 @@ VALUES(JOIN_SEQ.NEXTVAL, 'abc@naver.com', 'name', 'abc', '19990101', 'F', 'Y');
 
 
 --======================================================================================================
--- 학력사항
-DROP SEQUENCE SCHOOL_SEQ;
-DROP TABLE SCHOOL;
+--기존 학력 테이블 + 기존 스킬 테이블 하나의 테이블로 변경, + 유저정보는 세션에서 사용  
+DROP SEQUENCE TOTAL_SEQ;
+DROP TABLE TOTAL;
 
-CREATE SEQUENCE SCHOOL_SEQ;
+CREATE SEQUENCE TOTAL_SEQ;
 
-CREATE TABLE SCHOOL
-(
-    SCHOOLSEQ     NUMBER           NOT NULL, 
-    JOINEMAIL     VARCHAR2(200)    NOT NULL, 
-    CAREER        VARCHAR2(20)     NOT NULL,  -- 학력구분(학위)
-    SCHOOLNAME    VARCHAR2(20)     NOT NULL,  -- 학교명
-    ADMISSION     VARCHAR2(20)     NOT NULL,  -- 입학년월
-    GRADUATE      VARCHAR2(20)     NOT NULL,  -- 졸업년월 (재학중, 중퇴)
-    MAJOR         VARCHAR2(100), 			  -- 전공명
-    GRADE         CHAR(20), 					  -- 학점
-    CONSTRAINT SCHOOL_PK PRIMARY KEY (SCHOOLSEQ)
+CREATE TABLE TOTAL(
+   TOTALSEQ NUMBER, 
+   JOINEMAIL VARCHAR2(1000) PRIMARY KEY,
+   JOINNAME VARCHAR2(1000) ,
+   JOINPW VARCHAR2(1000),
+   JOINBIRTH VARCHAR2(1000) ,
+   JOINSEX VARCHAR2(1000) ,
+   PHOTO VARCHAR2(1000),
+   MILILTARY VARCHAR2(100) ,
+   PHONE VARCHAR2(500) ,
+   ADDRESS VARCHAR2(1000) ,
+   KAKAO VARCHAR2(100),
+   SIGNUP VARCHAR2(10),
+   CATEGORY VARCHAR2(100),
+   ITSKILL1 VARCHAR2(100) ,
+   ITSKILL2 VARCHAR2(100) ,
+   ITSKILL3 VARCHAR2(100) ,
+   ITSKILL4 VARCHAR2(100) ,
+   ITSKILL5 VARCHAR2(100) ,
+   ITSCORE VARCHAR2(100),
+   CERTIFICATE VARCHAR2(1000),
+   LANGUAGENAME VARCHAR2(300),
+   LANGUAGESCORE NUMBER,
+   LANGUAGEREGDATE VARCHAR2(100),
+   CONTEST VARCHAR2(100),
+   PRIZE VARCHAR2(50),
+   ORGANIZATION VARCHAR2(100),
+   STARTORGANIZATION VARCHAR2(100),
+   REGDATE VARCHAR2(100),
+   CAREER VARCHAR2(50),
+   SCHOOLNAME VARCHAR2(100),
+   ADMISSION VARCHAR2(100),
+   GRADUATE VARCHAR2(100),
+   MAJOR VARCHAR2(100),
+   GRADE VARCHAR2(30)
 );
-
---======================================================================================================
--- 자신있는 언어, 자격증, 어학점수, 공모전
-DROP TABLE SKILL;
-DROP SEQUENCE SKILL_SEQ;
-
-CREATE SEQUENCE SKILL_SEQ;
-
-CREATE TABLE SKILL
-(
-    SKILLSEQ         NUMBER           NOT NULL, 
-    JOINEMAIL        VARCHAR2(200)    NOT NULL, 
-    CATEGORY         VARCHAR2(20), 				-- 구분 : 언어, 자격증, 어학점수, 공모전 >> CHKED로 할까요?
-    ITSKILL          VARCHAR2(50), 				-- 프로그램관련 스킬
-    ITSCORE          NUMBER, 					-- 스킬 점수 1 ~ 10 
-    CERTIFICATE      VARCHAR2(50), 				-- 자격증명
-    LANGUAGENAME     VARCHAR2(50), 				-- 어학시험명
-    LANGUAGESCORE    NUMBER, 					-- 어학시험 점수
-    CONTEST          VARCHAR2(50), 				-- 공모전
-    PRIZE            VARCHAR2(20), 				-- 수상 
-    ORGANIZATION     VARCHAR2(50), 				-- 발행기관
-    REGDATE          VARCHAR2(12), 				-- 취득날짜, 참여날짜
-    CONSTRAINT SKILL_PK PRIMARY KEY (SKILLSEQ)
-);
-
-INSERT INTO SKILL VALUES(SKILL_SEQ.NEXTVAL , 'USER@GMAIL.COM','언어','Jsp/Servlet',3,'뿅뿡','javascript',4,'서울개근콘서트공모전','으아아아악','은평부평천하태평','4020-03-02');
-
-SELECT * FROM SKILL;
-
-DELETE FROM SKILL WHERE ITSCORE = 1;
+INSERT INTO TOTAL(JOINEMAIL,JOINNAME,JOINBIRTH,JOINSEX,MILILTARY,PHONE,ADDRESS,ITSKILL1,ITSKILL2,ITSKILL3,ITSKILL4,ITSKILL5,MAJOR) VALUES('igs99275@naver.com','조수민','940802','남성','군필','010-8842-1869','인천광역시 부평구','자바','파이썬','씨언어','씨큐리티','오라클','항소');
+SELECT * FROM TOTAL;
+DROP TABLE TOTAL;
 --======================================================================================================
 --파일 업로드 다운로드 댓글 게시판
 
@@ -86,14 +83,14 @@ DROP TABLE BOARD;
 CREATE SEQUENCE BOARD_SEQ START WITH 1 INCREMENT BY 1;
 CREATE TABLE BOARD
 (
-    BOARDSEQ     NUMBER            NOT NULL, 	
-    GROUPNO      NUMBER			   NOT NULL, 	-- 그룹 번호
-    GROUPSEQ     NUMBER			   NOT NULL, 	-- 같은 그룹내의 순서
-    TITLETAB     NUMBER			   		   , 	-- 탭 구분(첫글null, 댓글0, 대댓1)
-    JOINEMAIL    VARCHAR2(200)     NOT NULL, 	-- 이메일(ID) 작성자
-    TITLE        VARCHAR2(1000)    		   , 	-- 제목(댓글은 제목없음)
-    CONTENT      VARCHAR2(4000)    NOT NULL, 	-- 내용
-    FILEPATH     VARCHAR2(1000), 				-- 파일 경로
+    BOARDSEQ     NUMBER            NOT NULL,    
+    GROUPNO      NUMBER            NOT NULL,    -- 그룹 번호
+    GROUPSEQ     NUMBER            NOT NULL,    -- 같은 그룹내의 순서
+    TITLETAB     NUMBER                     ,    -- 탭 구분(첫글null, 댓글0, 대댓1)
+    JOINEMAIL    VARCHAR2(200)     NOT NULL,    -- 이메일(ID) 작성자
+    TITLE        VARCHAR2(1000)             ,    -- 제목(댓글은 제목없음)
+    CONTENT      VARCHAR2(4000)    NOT NULL,    -- 내용
+    FILEPATH     VARCHAR2(1000),             -- 파일 경로
     REGDATE      DATE              NOT NULL, 
     CONSTRAINT BOARD_PK PRIMARY KEY (BOARDSEQ)
 );
@@ -103,13 +100,13 @@ SELECT * FROM BOARD;
 DELETE FROM BOARD WHERE JOINEMAIL = 'mintparc@gmail.com';
 
 SELECT B.*
-		FROM (
-			SELECT A.*, ROW_NUMBER() OVER(ORDER BY BOARDSEQ DESC) AS RNUM
-			FROM BOARD A
-			WHERE GROUPSEQ = 1
-			) B	
-			WHERE RNUM BETWEEN  0 + 1 AND 3
-			ORDER BY BOARDSEQ DESC
+      FROM (
+         SELECT A.*, ROW_NUMBER() OVER(ORDER BY BOARDSEQ DESC) AS RNUM
+         FROM BOARD A
+         WHERE GROUPSEQ = 1
+         ) B   
+         WHERE RNUM BETWEEN  0 + 1 AND 3
+         ORDER BY BOARDSEQ DESC
 
 --======================================================================================================
 -- 자기소개서 
@@ -131,16 +128,16 @@ CREATE SEQUENCE PORTFOLIO_SEQ;
 
 CREATE TABLE COVERLETTER
 (
-    TOTALSEQ	      NUMBER            NOT NULL,   -- 전체 시퀀스 	
-    JOINEMAIL         VARCHAR2(200)     NOT NULL, 	-- 이메일
-    CVCATEGORY		  VARCHAR2(30)		NOT NULL,	-- 카테고리
- 	GROPUSEQ		  NUMBER			NOT NULL, 	-- 자소서, 포폴용 각각의 시퀀스
-    QUESTION          VARCHAR2(1000), 				-- 항목(질문)
-    TITLE             VARCHAR2(500)		NOT NULL, 	-- 제목
-    SUBTITLE          VARCHAR2(500), 				-- 소제목(내용의 핵심 키워드)
-    CONTENT           VARCHAR2(3000),			    -- 내용
-    REGDATE           DATE				NOT NULL,   -- 작성일
-    FILEPATH		  VARCHAR2(1000),
+    TOTALSEQ         NUMBER            NOT NULL,   -- 전체 시퀀스    
+    JOINEMAIL         VARCHAR2(200)     NOT NULL,    -- 이메일
+    CVCATEGORY        VARCHAR2(30)      NOT NULL,   -- 카테고리
+    GROUPSEQ        NUMBER         NOT NULL,    -- 자소서, 포폴용 각각의 시퀀스
+    QUESTION          VARCHAR2(1000),             -- 항목(질문)
+    TITLE             VARCHAR2(500)      NOT NULL,    -- 제목
+    SUBTITLE          VARCHAR2(500),             -- 소제목(내용의 핵심 키워드)
+    CONTENT           VARCHAR2(3000),             -- 내용
+    REGDATE           DATE            NOT NULL,   -- 작성일
+    FILEPATH        VARCHAR2(1000),
     CONSTRAINT COVERLETTER_PK PRIMARY KEY (TOTALSEQ),
     CONSTRAINT COVERLETTER_CK01 CHECK (CVCATEGORY IN('자소서','포폴'))
 );
@@ -163,14 +160,16 @@ CREATE SEQUENCE JOBCALENDAR_SEQ;
 
 CREATE TABLE JOBCALENDAR
 (
-    JOBCALENDARSEQ     NUMBER          	   NOT NULL,    
+    JOBCALENDARSEQ     NUMBER                NOT NULL,    
     JOINEMAIL          VARCHAR2(200)       NOT NULL, 
-    COMPANYNAMESEQ     NUMBER         	   NOT NULL,   	-- 회사테이블 프라이머리키
-    COMPANYNAME        VARCHAR2(20)    	   NOT NULL,    -- 회사명
-    BUSINESS       	   VARCHAR2(1000)	   NOT NULL,       -- 채용제목
-    ENDDATE            VARCHAR2(20)  	   NOT NULL,    -- 마감일
+    COMPANYNAMESEQ     NUMBER               NOT NULL,      -- 회사테이블 프라이머리키
+    COMPANYNAME        VARCHAR2(20)          NOT NULL,    -- 회사명
+    BUSINESS             VARCHAR2(1000)      NOT NULL,       -- 채용제목
+    ENDDATE            VARCHAR2(20)        NOT NULL,    -- 마감일
     CONSTRAINT JOBCALENDAR_PK PRIMARY KEY (JOBCALENDARSEQ)
 ); 
+
+SELECT * FROM JOBCALENDAR
 
 --=====================================================================================================================
 -- 후원 내역 테이블
@@ -182,16 +181,16 @@ CREATE SEQUENCE SUPPORTPAY_SEQ;
 
 CREATE TABLE SUPPORTPAY
 (
-	TID 					 VARCHAR2(200)    NOT NULL,	-- 결제 고유 번호. 결제요청 API 응답에 오는 값과 동일해야 함
-	CID 					 VARCHAR2(200)    NOT NULL,	-- 가맹점 코드. 결제준비 API에서 요청한 값과 일치해야 함	
-    PARTNER_ORDER_ID    	 VARCHAR2(200)    NOT NULL, -- 가맹점 주문번호	
-    PARTNER_USER_ID        	 VARCHAR2(200)    NOT NULL, -- 가맹점 회원 id	
-    PAYMENT_METHOD_TYPE      VARCHAR2(100)    NOT NULL, -- 결제 수단. CARD, MONEY 중 하나	
+   TID                 VARCHAR2(200)    NOT NULL,   -- 결제 고유 번호. 결제요청 API 응답에 오는 값과 동일해야 함
+   CID                 VARCHAR2(200)    NOT NULL,   -- 가맹점 코드. 결제준비 API에서 요청한 값과 일치해야 함   
+    PARTNER_ORDER_ID        VARCHAR2(200)    NOT NULL, -- 가맹점 주문번호   
+    PARTNER_USER_ID            VARCHAR2(200)    NOT NULL, -- 가맹점 회원 id   
+    PAYMENT_METHOD_TYPE      VARCHAR2(100)    NOT NULL, -- 결제 수단. CARD, MONEY 중 하나   
     AMOUNT_TOTAL             VARCHAR2(100)    NOT NULL, -- 총 결제 금액
-    AMOUNT_TAX_FREE     	 VARCHAR2(100)    NOT NULL, -- 결제 부과세 
-    ITEM_NAME    			 VARCHAR2(100)    NOT NULL, -- 상품 이름. 최대 100자	
-    QUANTITY     			 VARCHAR2(100)    NOT NULL, -- 후원금액
-    CREATED_AT				 DATE	  		  NOT NULL,	-- 결제 준비 요청 시각	
+    AMOUNT_TAX_FREE         VARCHAR2(100)    NOT NULL, -- 결제 부과세 
+    ITEM_NAME              VARCHAR2(100)    NOT NULL, -- 상품 이름. 최대 100자   
+    QUANTITY               VARCHAR2(100)    NOT NULL, -- 후원금액
+    CREATED_AT             DATE             NOT NULL,   -- 결제 준비 요청 시각   
     CONSTRAINT TID PRIMARY KEY (TID)
 );
 
@@ -211,15 +210,15 @@ CREATE SEQUENCE COMPANYSEQ;
 
 CREATE TABLE COMPANY
 (
-	-- 기본정보 : 시퀀스, 그룹번호, 회사명, 이미지url, 한줄 소개, 모집대상(a), 주요업무(a-b), 채용상세(a-b), 연봉(a), 경력(a), 언어특기(a), 마감일(a), 기업소개글
+   -- 기본정보 : 시퀀스, 그룹번호, 회사명, 이미지url, 한줄 소개, 모집대상(a), 주요업무(a-b), 채용상세(a-b), 연봉(a), 경력(a), 언어특기(a), 마감일(a), 기업소개글
     COMPANYSEQ       NUMBER            NOT NULL, 
     GROUPNO          NUMBER            NOT NULL, 
     COMPANYNAME      VARCHAR2(200)     NOT NULL, 
     IMGURL           VARCHAR2(1000)    NOT NULL, 
     ONEINTRO         VARCHAR2(1000)    NOT NULL, 
     BUSINESS         VARCHAR2(1000)    NOT NULL, 
-    MAINBUSINESS	 VARCHAR2(3000)	   NOT NULL, 
-    JOBDETAIL        CLOB			   NOT NULL, 
+    MAINBUSINESS    VARCHAR2(3000)      NOT NULL, 
+    JOBDETAIL        CLOB            NOT NULL, 
     SALARY           VARCHAR2(200)     NOT NULL, 
     TARGET           VARCHAR2(20)      NOT NULL,
     LANGUAGES        VARCHAR2(1000)    NOT NULL, 
@@ -242,10 +241,10 @@ CREATE TABLE COMPANY
 )
 
 insert into COMPANY values(COMPANYSEQ.NEXTVAL , 0, '회사이름', '이미지 url', '한 줄 회사소개', 
-							'모집대상', '주요업무', '채용상세', '연봉', '경력', '언어특기', '마감일(yy/mm/dd)', 
-							'기업소개', 
-							'개인지급장비', '자기개발 지원', '식시시간', '연차/휴가', '근무형태', '보험의료',
-						    '설립일', '구성원(총원)', '홈페이지', '위치', '산업분야'
-							);
+                     '모집대상', '주요업무', '채용상세', '연봉', '경력', '언어특기', '마감일(yy/mm/dd)', 
+                     '기업소개', 
+                     '개인지급장비', '자기개발 지원', '식시시간', '연차/휴가', '근무형태', '보험의료',
+                      '설립일', '구성원(총원)', '홈페이지', '위치', '산업분야'
+                     );
 
 SELECT * FROM COMPANY;

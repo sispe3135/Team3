@@ -60,6 +60,21 @@ public class UserController {
    @Autowired
    private TotalBiz totalBiz;
    
+   @Autowired
+   private JobCalendarBiz jobCalendarBiz;
+
+	String cvcategory = "";
+	String joinemail = "USER@GMAIL.COM";
+
+	@Autowired
+	private CoverLetterBiz coverletterBiz;
+
+	@Autowired
+	private SkillBiz skillBiz;
+
+	// 로그인 기능 완성되면 로그인 세션에 있는 아이디로 바꿔야됨
+	String login = "cv@email.net";
+   
 //   //마이페이지
 //   @RequestMapping(value="/USER_userMain.do", method=RequestMethod.GET)
 //   public String userMain() {
@@ -120,20 +135,6 @@ public class UserController {
          }
       }
          
-	private JobCalendarBiz jobCalendarBiz;
-
-	String cvcategory = "";
-	String joinemail = "USER@GMAIL.COM";
-
-	@Autowired
-	private CoverLetterBiz coverletterBiz;
-
-	@Autowired
-	private SkillBiz skillBiz;
-
-	// 로그인 기능 완성되면 로그인 세션에 있는 아이디로 바꿔야됨
-	String login = "cv@email.net";
-
    //PFwrite page go 
    @RequestMapping(value = "/USER_userPFwrite.do", method = RequestMethod.GET)
    public String PFwrite() {

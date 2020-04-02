@@ -26,6 +26,7 @@ public class JobCalendarDaoImpl implements JobCalendarDao {
          System.out.println("[error] : boardJobListCount");
          e.printStackTrace();
       }
+      System.out.println("JobCalendar DaoImpl : res :"+ res);
       return res;
    }
 
