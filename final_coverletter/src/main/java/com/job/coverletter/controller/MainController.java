@@ -114,8 +114,9 @@ public class MainController {
 	public String pay(Model model , HttpSession session) {
 		JoinUserDto userDto = (JoinUserDto) session.getAttribute("login");
 		String joinemail = userDto.getJoinemail();
+		String joinname = userDto.getJoinname();
 		
-		model.addAttribute("joinemail", joinemail);
+		model.addAttribute("joinname", joinname);
 
 		return "PAY/pay";
 	}

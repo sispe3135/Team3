@@ -16,7 +16,7 @@
 <body>
 <!-- 	<input type="text" id="quan		tity" onkeydown="onlyNumber(this);"/> -->
 	
-	<h3>${joinemail}님의 후원</h3>
+	<h3>${joinname}님의 후원</h3>
 	<input type="hidden" id="joinemail" value="${joinemail}"/>
 	<label>후원금액: 										<!-- 숫자만 입력가능 -->
 	<input type="text" id="quantity" style = "ime-mode:disabled"/>

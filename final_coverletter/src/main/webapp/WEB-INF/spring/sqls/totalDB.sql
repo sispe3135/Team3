@@ -25,7 +25,10 @@ SELECT * FROM JOINUSER;
 
 INSERT INTO JOINUSER(JOINSEQ,JOINEMAIL,JOINNAME,JOINPW,JOINBIRTH,JOINSEX, SINGUP )
 VALUES(JOIN_SEQ.NEXTVAL, 'yeo@gmail.com', '여정현', 'abc', '19960829', 'F', 'Y');
+INSERT INTO JOINUSER(JOINSEQ,JOINEMAIL,JOINNAME,JOINPW,JOINBIRTH,JOINSEX, SINGUP )
+VALUES(JOIN_SEQ.NEXTVAL, 'abc@naver.com', '이형권', 'abc', '19960829', 'F', 'Y');
 
+DELETE FROM JOINUSER WHERE JOINEMAIL = 'abc@naver.com';
 
 
 --======================================================================================================
